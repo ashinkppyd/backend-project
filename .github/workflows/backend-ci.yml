@@ -30,9 +30,9 @@ jobs:
       run: python manage.py check
 
     - name: Success Message
-      run: echo "🚀 Django backend passed all checks!"
+      run: echo "🚀 Django backend passed all checks! Starting deployment..."
 
-      # 👇 THE AWS DEPLOYMENT STEP 👇
+    # 👇 THE AWS DEPLOYMENT STEP 👇
     - name: Deploy to AWS EC2
       uses: appleboy/ssh-action@v1.0.3
       with:
