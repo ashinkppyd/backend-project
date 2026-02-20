@@ -23,7 +23,6 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run Django System Checks
-      # 🚀 HERE IS THE FIX: We give it fake variables just for the test!
       env:
         SECRET_KEY: 'dummy-secret-key-for-github-actions'
         DEBUG: 'True'
