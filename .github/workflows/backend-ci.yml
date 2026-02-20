@@ -31,3 +31,27 @@ jobs:
 
     - name: Success Message
       run: echo "🚀 Django backend passed all checks!"
+
+      # 👇 THE AWS DEPLOYMENT STEP 👇
+    - name: Deploy to AWS EC2
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.AWS_HOST_IP }}
+        username: ${{ secrets.AWS_USERNAME }}
+        key: ${{ secrets.AWS_PRIVATE_KEY }}
+        script: |
+          # 🛑 CHANGE THIS TO YOUR ACTUAL PROJECT FOLDER PATH ON AWS
+          cd /home/ubuntu/backend-project  
+          
+          # Pull latest code from GitHub
+          git pull origin main
+          
+          # 🛑 CHANGE 'venv' IF YOUR VIRTUAL ENVIRONMENT HAS A DIFFERENT NAME
+          source venv/bin/activate
+          
+          # Install new packages and run migrations
+          pip install -r requirements.txt
+          python manage.py migrate
+          
+          # 🛑 RESTART GUNICORN (Change 'gunicorn' to match your actual service name)
+          sudo systemctl restart gunicorn
